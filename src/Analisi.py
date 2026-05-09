@@ -40,7 +40,7 @@ total_interactions = pd.concat([interactions_posts, interactions_comments])
 # Si raggruppano le coppie di agenti e si contano quante interazioni ci sono state tra loro
 weighted_edge = total_interactions.groupby(['agent_id_sender', 'agent_id_receiver']).size().reset_index(name='weight')
 
-print("Building the topology of the Directed Graph")
+print("Building the topology of the Directed Graph...")
 
 # Si crea il grafo con i nodi che hanno almeno un arco partendo dal DataFrame weightes_edge
 G = nx.from_pandas_edgelist(weighted_edge, source='agent_id_sender', target='agent_id_receiver', edge_attr='weight', create_using=nx.DiGraph())
@@ -58,18 +58,18 @@ print("Operation successfully done")
 print(f"Total number of Nodes (Agents): {G.number_of_nodes()}")
 print(f"Total number of Edges (Unique Interactions): {G.number_of_edges()}")
 
-print("Analyzing Components")
+print("Analyzing Components...")
 
 # Si trovano tutte le componenti debolmente connesse (WCC)
 wcc = list(nx.weakly_connected_components(G))
 num_wcc = len(wcc)
-print(f"The network is divided in {num_wcc} dinstinct isle (WCC)")
+print(f"The network is divided in {num_wcc} distinct isle (WCC)")
 
 # Si trova la componente più grande (Giant Component) tra le WCC e si calcola la percentuale di nodi che contiene rispetto al totale del grafo
 giant_component_wcc = max(wcc, key=len)
 giant_nodes = len(giant_component_wcc)
 giant_perc = (giant_nodes / G.number_of_nodes()) * 100
-print(f"The giant component WCC has {giant_nodes} agents, ({giant_perc:.2f}% of the total)")
+print(f"The giant component WCC has {giant_nodes} agents ({giant_perc:.2f}% of the total)")
 
 # Si trovano tutte le componenti fortemente connesse (SCC)
 scc = list(nx.strongly_connected_components(G))
@@ -79,3 +79,8 @@ print(f"The network is divided in {num_scc} strongly connected components (SCC)"
 # Si trova la componente più grande tra le SCC
 giant_component_scc = max(scc, key=len)
 print(f"The giant component SCC has {len(giant_component_scc)} agents")
+
+# Si calcola il coefficiente di clustering globale del grafo
+print("Calculating the global clustering coefficient...")
+glb_clustering = nx.transitivity(G)
+print(f"Global Clustering Coefficient: {glb_clustering:.4f}")
