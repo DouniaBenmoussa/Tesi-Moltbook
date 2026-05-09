@@ -55,22 +55,24 @@ if G_snap.number_of_nodes() > 0:
 
     print("\n--- START CALCULATION CENTRALITY ---")
     
-    print("1/4 In-Degree Calculation...")
-
+    print("1/5 In-Degree Calculation...")
     # Si considerano i nodi vicini come in-degree
     # in_deg = nx.in_degree_centrality(g_giant)
     
     # Si considerano i pesi degli archi entranti (numero di interazioni) come in-degree
     in_deg = nx.in_degree_centrality(g_giant)
     
-    print("2/4 PageRank Calculation...")
+    print("2/5 PageRank Calculation...")
     pr = nx.pagerank(g_giant, weight='w')
     
-    print("3/4 Betweenness Calculation...")
+    print("3/5 Betweenness Calculation...")
     betw = nx.betweenness_centrality(g_giant)
     
-    print("4/4 Closeness Calculation...")
+    print("4/5 Closeness Calculation...")
     clos = nx.closeness_centrality(g_giant)
+
+    print("5/5 Local Clustering Coefficient Calculation...")
+    lc_clustering = nx.clustering(g_giant)
     
     print("\nAll calculations completed! Saving in progress...")
     
@@ -86,7 +88,8 @@ if G_snap.number_of_nodes() > 0:
         'in_degree': list(in_deg.values()),
         'pagerank': list(pr.values()),
         'closeness': list(clos.values()),
-        'betweenness': list(betw.values())
+        'betweenness': list(betw.values()),
+        'local_clustering': list(lc_clustering.values())
     }).to_csv(rm_path, index=False, sep=';', decimal=',')
     
     print(f"Analysis successfully completed! File successfully saved in: {rm_path}")
