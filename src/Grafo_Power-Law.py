@@ -1,11 +1,26 @@
 import matplotlib.pyplot as plt
+import statistics
 from collections import Counter
 
 from Analisi import G
 
 print("\nCalculating degree distributions...")
 
-# Si estraggono i gradi
+# Si estraggono tutti i gradi (compresi quelli pari a 0)
+all_in_degrees = [degree for node, degree in G.in_degree()]
+all_out_degrees = [degree for node, degree in G.out_degree()]
+
+# Si calcolano media e mediana degli in-degree
+print("In-Degree Statistics:")
+print(f"Mean: {statistics.mean(all_in_degrees): .4f}")
+print(f"Median: {statistics.median(all_in_degrees): .4f}")
+
+# Si calcolano media e mediana degli out-degree
+print("\nOut-Degree Statistics:")
+print(f"Mean: {statistics.mean(all_out_degrees): .4f}")
+print(f"Median: {statistics.median(all_out_degrees): .4f}")
+
+# Si estraggono i gradi (maggiori di 0 per evitare problemi di scala logaritmica)
 in_degrees = [degree for node, degree in G.in_degree() if degree > 0]
 out_degrees = [degree for node, degree in G.out_degree() if degree > 0]
 
