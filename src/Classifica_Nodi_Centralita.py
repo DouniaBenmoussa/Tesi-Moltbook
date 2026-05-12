@@ -46,7 +46,7 @@ ord_col = [
 df_elite = df_elite[ord_col]
 
 # Si salvano i risultati in un nuovo file CSV
-output_path = r"C:\Users\douni\Documents\Unipi\Tesi Moltbook\Risultati\Elite_Nodi_Top100.csv"
+output_path = r"C:\Users\douni\Documents\Unipi\Tesi Moltbook\Risultati\Classifica_Top_Nodi.csv"
 df_elite.to_csv(output_path, index=False, sep=';', decimal=',')
 
 print(f"\nElite node table successfully saved in: {output_path}")
